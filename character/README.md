@@ -219,6 +219,30 @@ python3 character/pixel/voice.py bark --voice deep    # 声質を変える
 鳴き声は `bark`（ワゥ）／`yip`（キャン）／`howl`（遠吠え）／`whine`（くぅーん）。
 `--say` はかなの母音をたどって喃語にします（子音は作らないので言葉にはなりません）。
 
+### 人の声で喋らせる
+
+自前の合成（`speak.py`）はフォルマント合成なので、**どれだけ調整しても
+「よくできた合成音声」止まり** です。人の声に聞こえるものは、実際に人が喋った音を
+使っています（録音をつなぐか、録音から学習したモデル）。原理が違うので、
+ここから先は手元のエンジンに任せます。
+
+```bash
+python3 character/pixel/tts.py --check              # 何が使えるか調べる
+python3 character/pixel/tts.py "とうこうしたよ"       # 使えるものを自動で選ぶ
+python3 character/pixel/tts.py "やあ" --backend voicevox --voicevox-speaker 3
+```
+
+| エンジン | 導入 | 向き |
+| --- | --- | --- |
+| **say**（macOS 内蔵） | **不要** | いちばん早い。日本語は `Kyoko`。設定から高品質版を入れるとかなり自然 |
+| **VOICEVOX** | エンジンを入れて起動 | 無料・日本語・ローカル。キャラクターらしい声ならこれ |
+| **piper** | モデル(.onnx)を1つ | オフラインのニューラル音声。軽い |
+| `builtin` | 不要 | `speak.py`。何も無いときの保険 |
+
+VOICEVOX は起動しておくと `http://127.0.0.1:50021` で待ち受けるので、
+`/audio_query` → `/synthesis` の2回叩くだけです（`tts.py` がやります）。
+話速・音高・抑揚もそのまま渡せます。
+
 ### しゃべる（子音つき）
 
 `speak.py` は子音を作れます。`voice.py --say` の喃語とは別物です。
