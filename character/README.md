@@ -128,11 +128,30 @@ python3 character/pixel/render.py character/pixel/rou.txt -s 16
 python3 character/pixel/show.py
 python3 character/pixel/show.py happy
 python3 character/pixel/show.py --list
+
+# 正方形のアイコンを書き出す（512/256/128/64）
+python3 character/pixel/icon.py
+python3 character/pixel/icon.py --bg none -s 512    # 透過
+python3 character/pixel/icon.py happy               # 表情を指定
 ```
 
-`render.py` も `show.py` も標準ライブラリだけで動きます（Pillow 不要）。
+`render.py` も `show.py` も `icon.py` も標準ライブラリだけで動きます（Pillow 不要）。
 `show.py` は半角1マスに縦2ピクセルを詰めるので、端末でもドットがほぼ正方形に見えます。
 `NO_COLOR` が設定されているか、出力先が端末でないときは何も出しません。
+
+## アイコン
+
+![アイコン](pixel/icons/rou_icon_256.png)
+
+`pixel/icons/` に 512 / 256 / 128 / 64 を置いてあります。背景はパレットのクリーム
+（`--bg white` / `--bg navy` / `--bg none` も選べます）。
+
+2点だけ気をつけています。
+
+- **拡大は必ず整数倍。** 中途半端な倍率だとドットがにじみます。
+  `icon.py` はサイズから自動で整数倍を選びます。
+- **横の中心は頭で取る。** しっぽまで含めて中央に置くと、顔が左に寄って見えます。
+  スプライトの上60%だけを見て中心を決めています。
 
 ## これまでの形
 
