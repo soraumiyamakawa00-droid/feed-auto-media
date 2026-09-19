@@ -4,7 +4,12 @@
 
 ## マスコット
 
-青い狼のドット絵キャラクターを製作中（名前未定）。
+青い狼の **ロウ**。ドット絵、表情9種。
 制作メモとパレットは [`character/`](character/README.md) にあります。
 
-![立ち姿](character/pixel/sprite_wolf_quad_x8.png)
+![ロウ](character/pixel/expressions_x6.png)
+
+```bash
+python3 character/pixel/show.py          # ターミナルにロウを出す
+python3 character/pixel/show.py happy    # 表情を指定
+```
