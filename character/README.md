@@ -153,6 +153,32 @@ python3 character/pixel/icon.py happy               # 表情を指定
 - **横の中心は頭で取る。** しっぽまで含めて中央に置くと、顔が左に寄って見えます。
   スプライトの上60%だけを見て中心を決めています。
 
+## アニメーション
+
+![吠える](pixel/anim/rou_bark.gif)
+
+| ファイル | 中身 | 使いどころ |
+| --- | --- | --- |
+| `pixel/anim/rou_idle.gif` | たまにまばたきする | 待機中 |
+| `pixel/anim/rou_bark.gif` | ひと吠え | 投稿した瞬間 |
+| `pixel/anim/rou_hop.gif` | 跳ねて喜ぶ | 投稿成功 |
+| `pixel/anim/rou_sleep.gif` | 寝息で上下する | キューが空 |
+
+```bash
+python3 character/pixel/anim.py              # 全部を書き出す
+python3 character/pixel/anim.py idle -s 8    # 1本だけ、倍率を指定
+python3 character/pixel/show.py --anim bark  # 端末で再生（Ctrl-C で止める）
+```
+
+GIF は標準ライブラリだけで組み立てています（LZW も自前）。
+
+コマは `anim.py` の `ANIMATIONS` に **（元のグリッド, 表示時間, 上下のずれ）** で並べるだけです。
+跳ねる動きは絵を描き足さずに、同じ絵を数px 上にずらして作っています。
+新しい動きを足すときも、まず「ずらすだけで作れないか」を試すのが早いです。
+
+まばたきは `rou_blink.txt`（閉じ）と `rou_half.txt`（半開き）の2枚だけ描き足しました。
+閉じるときも開くときも半開きを挟むと、2枚でもぱちくりして見えます。
+
 ## これまでの形
 
 同じパレット・同じ目で描いた別の姿も残してあります。

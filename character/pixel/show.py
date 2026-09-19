@@ -3,6 +3,7 @@
 
     python3 character/pixel/show.py              # 既定の顔
     python3 character/pixel/show.py happy        # 表情を指定
+    python3 character/pixel/show.py --anim idle  # 動かす（Ctrl-C で止める）
     python3 character/pixel/show.py --list       # 表情の一覧
 
 半角1マスに縦2ピクセルを詰めるので、ドットがほぼ正方形に見えます。
@@ -13,6 +14,7 @@ import json
 import os
 import pathlib
 import sys
+import time
 
 HERE = pathlib.Path(__file__).resolve().parent
 UPPER, LOWER, FULL = "▀", "▄", " "
@@ -68,10 +70,41 @@ def render(grid, table, indent=2):
     return "\n".join(lines)
 
 
+def play(name):
+    """anim.py のコマ割りをそのまま端末で再生する。"""
+    sys.path.insert(0, str(HERE))
+    import anim
+
+    if name not in anim.ANIMATIONS:
+        sys.exit(f"{name!r} はありません: {' '.join(anim.ANIMATIONS)}")
+    table = load_palette()
+    steps = []
+    for item in anim.ANIMATIONS[name]:
+        grid = [line for line in (HERE / f"{item[0]}.txt").read_text(
+            encoding="utf-8").splitlines() if line]
+        steps.append((render(grid, table), item[1] / 100))
+    lines = steps[0][0].count("\n") + 1
+    print("\x1b[?25l", end="")                      # カーソルを隠す
+    try:
+        first = True
+        while True:
+            for art, delay in steps:
+                if not first:
+                    print(f"\x1b[{lines}A", end="")
+                print(art)
+                first = False
+                time.sleep(delay)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        print("\x1b[?25h", end="", flush=True)      # カーソルを戻す
+
+
 def main():
     ap = argparse.ArgumentParser(description="ロウをターミナルに表示する")
     ap.add_argument("expression", nargs="?", default="normal")
     ap.add_argument("--list", action="store_true", help="表情の一覧を出す")
+    ap.add_argument("--anim", help="アニメーションを再生する（Ctrl-C で止める）")
     ap.add_argument("--force", action="store_true", help="端末でなくても表示する")
     args = ap.parse_args()
 
@@ -80,6 +113,9 @@ def main():
         print(" ".join(sorted(known)))
         return
     if os.environ.get("NO_COLOR") or not (args.force or sys.stdout.isatty()):
+        return
+    if args.anim:
+        play(args.anim)
         return
     path = known.get(args.expression)
     if path is None:
