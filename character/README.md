@@ -240,6 +240,22 @@ python3 character/pixel/tts.py "やあ" --backend voicevox --voicevox-speaker 3
 | **openjtalk** | `pip install pyopenjtalk` | 日本語専用。**声が同梱**なのでモデルを別途落とさずに済む |
 | `builtin` | 不要 | `speak.py`。何も無いときの保険 |
 
+### セリフ集をまとめて生成する
+
+`pixel/lines.json` に、フィードの状態ごとの **表情・効果音・セリフ** をまとめてあります。
+
+```bash
+python3 character/pixel/tts.py --voices --backend say        # 選べる声を見る
+python3 character/pixel/tts.py --all --backend say           # 全部まとめて生成
+python3 character/pixel/tts.py --all --backend voicevox --voicevox-speaker 3
+```
+
+`sound/voice/rou_<状態>.wav` に書き出されます。
+`say` と VOICEVOX は macOS・手元のアプリが要るので、**この環境では生成できません**
+（コンテナは Linux で、VOICEVOX は各自のマシンの :50021 にしかありません）。
+リポジトリに入っているのは OpenJTalk で作ったものです。手元で上のコマンドを流せば、
+同じファイル名で `say` や VOICEVOX の声に差し替わります。
+
 `drafts/voice/openjtalk_*.wav` が OpenJTalk で作ったサンプルです。
 自前の合成（`speak.py`）と聴き比べると、原理の差がそのまま出ます。
 

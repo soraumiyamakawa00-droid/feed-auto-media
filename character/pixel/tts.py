@@ -4,6 +4,8 @@
     python3 character/pixel/tts.py "とうこうしたよ"              # 使えるものを自動で選ぶ
     python3 character/pixel/tts.py "こんにちは" --backend say     # エンジンを指定
     python3 character/pixel/tts.py --check                       # 何が使えるか調べる
+    python3 character/pixel/tts.py --all --backend say           # セリフ集をまとめて生成
+    python3 character/pixel/tts.py --voices --backend say        # 選べる声の一覧
     python3 character/pixel/tts.py "やあ" --voicevox-speaker 3    # VOICEVOX の話者を選ぶ
 
 自前の合成（speak.py）はフォルマント合成なので、どれだけ調整しても
@@ -120,6 +122,23 @@ def run_builtin(text, path, voice="normal"):
     sound.write_wav(path, builtin.speak(text, **builtin.VOICE_PRESETS[voice]))
 
 
+def list_voices(backend):
+    if backend == "say":
+        subprocess.run(["say", "-v", "?"], check=False)
+    elif backend == "voicevox":
+        with urllib.request.urlopen(f"{VOICEVOX}/speakers", timeout=10) as res:
+            for speaker in json.loads(res.read()):
+                for style in speaker["styles"]:
+                    print(f'{style["id"]:4}  {speaker["name"]}（{style["name"]}）')
+    else:
+        print(f"{backend} は声の一覧を持っていません")
+
+
+def load_lines():
+    data = json.loads((HERE / "lines.json").read_text(encoding="utf-8"))
+    return data["lines"]
+
+
 def detect():
     if has_voicevox():
         return "voicevox"
@@ -138,6 +157,8 @@ def main():
     ap.add_argument("--backend", default="auto",
                     choices=["auto", "say", "voicevox", "piper", "openjtalk", "builtin"])
     ap.add_argument("--check", action="store_true", help="使えるエンジンを調べる")
+    ap.add_argument("--all", action="store_true", help="lines.json のセリフを全部生成する")
+    ap.add_argument("--voices", action="store_true", help="選べる声の一覧を出す")
     ap.add_argument("--say-voice", default="Kyoko")
     ap.add_argument("--voicevox-speaker", type=int, default=3)
     ap.add_argument("--piper-model")
@@ -159,10 +180,12 @@ def main():
         print(f"\n自動で選ぶと: {detect()}")
         return
 
-    if not args.text:
-        raise SystemExit("セリフを渡してください（--check で使えるエンジンを確認できます）")
-
     backend = detect() if args.backend == "auto" else args.backend
+    if args.voices:
+        list_voices(backend)
+        return
+    if not args.text and not args.all:
+        raise SystemExit("セリフを渡してください（--check で使えるエンジンを確認できます）")
     missing = {"say": (has_say, "macOS でのみ使えます"),
                "voicevox": (has_voicevox, "VOICEVOX を起動してください（http://127.0.0.1:50021）"),
                "piper": (has_piper, "piper が見つかりません"),
@@ -172,6 +195,28 @@ def main():
                          f"--check で使えるエンジンを確認できます。")
     out_dir = pathlib.Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    def render(text, path):
+        if backend == "say":
+            run_say(text, path, args.say_voice)
+        elif backend == "voicevox":
+            run_voicevox(text, path, args.voicevox_speaker)
+        elif backend == "piper":
+            run_piper(text, path, args.piper_model)
+        elif backend == "openjtalk":
+            run_openjtalk(text, path, args.speed)
+        else:
+            run_builtin(text, path, args.builtin_voice)
+
+    if args.all:
+        voice_dir = out_dir / "voice"
+        voice_dir.mkdir(parents=True, exist_ok=True)
+        for state, line in load_lines().items():
+            path = voice_dir / f"rou_{state}.wav"
+            render(line["text"], path)
+            print(f'{path}  ({backend})  {state:10} 「{line["text"]}」')
+        return
+
     path = out_dir / f"{args.name}.wav"
 
     if backend == "say":

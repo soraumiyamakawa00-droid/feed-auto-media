@@ -1,0 +1,15 @@
+{
+  "_comment": "ロウのセリフ集。フィードの状態ごとに、表情・効果音・セリフを対応させたもの。",
+  "lines": {
+    "idle":      { "text": "つぎ、まってる。",     "face": "rou",          "sound": null },
+    "posted":    { "text": "とうこうした。",       "face": "rou_bark",     "sound": "rou_bark" },
+    "success":   { "text": "うまくいった。",       "face": "rou_happy",    "sound": "rou_hop" },
+    "error":     { "text": "しっぱいした。",       "face": "rou_angry",    "sound": "rou_error" },
+    "skipped":   { "text": "とばした。",           "face": "rou_sad",      "sound": null },
+    "empty":     { "text": "もう、ないよ。",       "face": "rou_sleep",    "sound": "rou_sleep" },
+    "scheduled": { "text": "よやく、した。",       "face": "rou_wink",     "sound": null },
+    "streak":    { "text": "ぜんぶ、ながした。",   "face": "rou_smug",     "sound": null },
+    "surprise":  { "text": "なにこれ。",           "face": "rou_surprise", "sound": null },
+    "hello":     { "text": "ロウです。よろしく。", "face": "rou",          "sound": "rou_wake" }
+  }
+}
