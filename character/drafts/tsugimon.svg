@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="ツギモン - feed-auto-media のマスコット">
+  <title>ツギモン</title>
+  <desc>毛皮のフードをかぶった小さな配信獣。feed-auto-media のオリジナルマスコット。</desc>
+
+  <defs>
+    <radialGradient id="tsugi-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD98A" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#FFD98A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <g fill="none" stroke="#4A3728" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- 接地影 -->
+    <ellipse cx="256" cy="452" rx="126" ry="16" fill="#4A3728" opacity="0.12" stroke="none"/>
+
+    <!-- しっぽ（先端はしおり型フラグ＝「次の投稿」の目印） -->
+    <path d="M316 350 C368 344 392 316 388 272 C420 268 434 330 392 372 C368 394 336 398 314 392 Z" fill="#D9704F"/>
+    <path d="M382 200 h40 v72 l-20 -16 l-20 16 z" fill="#F2C14E"/>
+
+    <!-- 足 -->
+    <ellipse cx="214" cy="422" rx="40" ry="26" fill="#F6EFE3"/>
+    <ellipse cx="298" cy="422" rx="40" ry="26" fill="#F6EFE3"/>
+    <g stroke-width="4" opacity="0.55">
+      <path d="M204 410 v12"/><path d="M224 408 v14"/>
+      <path d="M288 408 v14"/><path d="M308 410 v12"/>
+    </g>
+
+    <!-- 胴（クリーム地） -->
+    <rect x="182" y="268" width="148" height="156" rx="68" fill="#F6EFE3"/>
+
+    <!-- 毛皮のマント（裾はぎざぎざ） -->
+    <path d="M180 306 C180 272 332 272 332 306 L336 388
+             L320 406 L304 388 L288 406 L272 388 L256 406
+             L240 388 L224 406 L208 388 L192 406 L176 388 Z" fill="#D9704F"/>
+    <g stroke="#F6EFE3" stroke-width="8" stroke-dasharray="16 14" opacity="0.85">
+      <path d="M190 334 H322"/>
+      <path d="M192 364 H320"/>
+    </g>
+
+    <!-- おなか＆フィードの紋章 -->
+    <ellipse cx="256" cy="354" rx="52" ry="56" fill="#F6EFE3"/>
+    <rect x="226" y="328" width="60" height="48" rx="12" fill="#EFE4D2" stroke="#C6B094" stroke-width="3"/>
+    <path d="M232 368 L248 348 L262 368 Z" fill="#9DB98A" stroke="#C6B094" stroke-width="3"/>
+    <circle cx="242" cy="342" r="6" fill="#E39A5C" stroke="none"/>
+
+    <!-- 手 -->
+    <ellipse cx="170" cy="330" rx="24" ry="28" fill="#F6EFE3" transform="rotate(-14 170 330)"/>
+    <ellipse cx="342" cy="330" rx="24" ry="28" fill="#F6EFE3" transform="rotate(14 342 330)"/>
+    <g stroke-width="4" opacity="0.55">
+      <path d="M160 346 l-4 10"/><path d="M172 350 l0 10"/>
+      <path d="M352 346 l4 10"/><path d="M340 350 l0 10"/>
+    </g>
+
+    <!-- アンテナ角（フードから伸びる受信角） -->
+    <circle cx="256" cy="34" r="34" fill="url(#tsugi-glow)" stroke="none"/>
+    <g stroke="#E9A93F" stroke-width="5">
+      <path d="M224 20 l-13 -9"/><path d="M288 20 l13 -9"/><path d="M256 12 v-10"/>
+    </g>
+    <rect x="248" y="28" width="16" height="62" rx="8" fill="#F6EFE3"/>
+    <circle cx="256" cy="34" r="15" fill="#F2C14E"/>
+
+    <!-- フードの耳 -->
+    <path d="M168 114 L148 68 L198 94 Z" fill="#D9704F"/>
+    <path d="M344 114 L364 68 L314 94 Z" fill="#D9704F"/>
+
+    <!-- 毛皮フード -->
+    <path d="M256 66 C344 66 376 140 368 216 C362 278 330 310 256 310
+             C182 310 150 278 144 216 C136 140 168 66 256 66 Z" fill="#D9704F"/>
+    <g stroke="#F6EFE3" stroke-width="9" stroke-dasharray="18 16" opacity="0.9">
+      <path d="M164 156 Q256 62 348 156"/>
+      <path d="M148 212 Q256 100 364 212"/>
+    </g>
+
+    <!-- 顔 -->
+    <ellipse cx="256" cy="222" rx="82" ry="72" fill="#F6EFE3"/>
+    <ellipse cx="256" cy="252" rx="36" ry="26" fill="#FBF6EC" stroke="#4A3728" stroke-opacity="0.35" stroke-width="4"/>
+    <ellipse cx="190" cy="246" rx="17" ry="10" fill="#E8836A" opacity="0.45" stroke="none"/>
+    <ellipse cx="322" cy="246" rx="17" ry="10" fill="#E8836A" opacity="0.45" stroke="none"/>
+    <ellipse cx="218" cy="212" rx="14" ry="18" fill="#3A2E22" stroke="none"/>
+    <ellipse cx="294" cy="212" rx="14" ry="18" fill="#3A2E22" stroke="none"/>
+    <circle cx="213" cy="205" r="5" fill="#FFFFFF" stroke="none"/>
+    <circle cx="289" cy="205" r="5" fill="#FFFFFF" stroke="none"/>
+    <circle cx="222" cy="220" r="2.5" fill="#FFFFFF" opacity="0.8" stroke="none"/>
+    <circle cx="298" cy="220" r="2.5" fill="#FFFFFF" opacity="0.8" stroke="none"/>
+    <ellipse cx="256" cy="238" rx="7" ry="5" fill="#4A3728" stroke="none"/>
+    <path d="M240 250 Q256 266 272 250"/>
+  </g>
+</svg>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ロウ</title>
+<style>
+  :root { color-scheme: light dark;
+    --bg:#F7F4EC; --text:#16213E; --muted:#6B7280; --line:#DED7C6; --tile:#EFE9DA; --accent:#4A90D9; }
+  @media (prefers-color-scheme: dark) { :root {
+    --bg:#11141F; --text:#E9E6DD; --muted:#9AA1B0; --line:#2A2F40; --tile:#1A1E2C; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); padding:0 16px 80px;
+    font-family:"Hiragino Sans","Noto Sans JP",system-ui,sans-serif; line-height:1.8; }
+  main { max-width:900px; margin:0 auto; }
+  h1 { font-size:1.6rem; margin:2.4rem 0 .3rem; }
+  h2 { font-size:1.05rem; margin:3rem 0 .3rem; padding-top:1.6rem; border-top:1px solid var(--line); }
+  p.lead, p.sub { color:var(--muted); font-size:.88rem; margin:.2rem 0 1.2rem; }
+  img { max-width:100%; image-rendering:pixelated; }
+  figure { margin:0; }
+  figcaption { font-size:.82rem; margin-top:.4rem; display:flex; flex-direction:column; }
+  .sub { color:var(--muted); font-size:.78rem; }
+  .grid { display:grid; gap:1.2rem; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); }
+  .grid img { width:100%; height:auto; background:var(--tile); border-radius:6px; padding:6px; }
+  ul.plain { list-style:none; margin:0; padding:0; display:grid; gap:.5rem; }
+  ul.plain li { display:flex; align-items:center; gap:.8rem; flex-wrap:wrap;
+    border-bottom:1px solid var(--line); padding:.5rem 0; }
+  .who { min-width:6rem; font-size:.9rem; }
+  .chip { width:1.3rem; height:1.3rem; border-radius:4px; border:1px solid var(--line); flex:none; }
+  .hex { color:var(--muted); font-size:.8rem; font-family:ui-monospace,monospace; }
+  code { font-family:ui-monospace,SFMono-Regular,monospace; font-size:.85em; }
+  table { width:100%; border-collapse:collapse; font-size:.9rem; }
+  td { border-bottom:1px solid var(--line); padding:.6rem .5rem; vertical-align:middle; }
+  td:first-child { width:9rem; color:var(--muted); }
+  tr.inrun td:first-child code { color:var(--accent); font-weight:700; }
+  audio { height:32px; max-width:230px; }
+  pre { background:var(--tile); border:1px solid var(--line); border-radius:6px;
+    padding:1rem; overflow-x:auto; font-size:.8rem; line-height:1.5; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ロウ</h1>
+  <p class="lead">このページは <code>character/pixel/sheet.py</code> が書き出したものです。
+  画像と音はリポジトリのファイルを指しているだけなので、
+  グリッドを描き換えて <code>render.py</code> を流し直せば、開き直すだけで最新になります。</p>
+  <img src="pixel/icons/rou_icon_256.png" alt="ロウ" width="256" height="256">
+
+  <h2>表情</h2>
+  <p class="sub">体と毛は共通。顔と耳の角度だけ差し替えています。原本は <code>.txt</code> です。</p>
+  <div class="grid"><figure><img src="pixel/rou_x8.png" alt="ふだん" width="320" height="320"><figcaption>ふだん<span class="sub">rou.txt</span></figcaption></figure><figure><img src="pixel/rou_happy_x8.png" alt="うれしい" width="320" height="320"><figcaption>うれしい<span class="sub">rou_happy.txt</span></figcaption></figure><figure><img src="pixel/rou_bark_x8.png" alt="ほえる" width="320" height="320"><figcaption>ほえる<span class="sub">rou_bark.txt</span></figcaption></figure><figure><img src="pixel/rou_smug_x8.png" alt="どや" width="320" height="320"><figcaption>どや<span class="sub">rou_smug.txt</span></figcaption></figure><figure><img src="pixel/rou_wink_x8.png" alt="ウインク" width="320" height="320"><figcaption>ウインク<span class="sub">rou_wink.txt</span></figcaption></figure><figure><img src="pixel/rou_surprise_x8.png" alt="おどろき" width="320" height="320"><figcaption>おどろき<span class="sub">rou_surprise.txt</span></figcaption></figure><figure><img src="pixel/rou_sad_x8.png" alt="しょんぼり" width="320" height="320"><figcaption>しょんぼり<span class="sub">rou_sad.txt</span></figcaption></figure><figure><img src="pixel/rou_angry_x8.png" alt="おこ" width="320" height="320"><figcaption>おこ<span class="sub">rou_angry.txt</span></figcaption></figure><figure><img src="pixel/rou_sleep_x8.png" alt="ねむい" width="320" height="320"><figcaption>ねむい<span class="sub">rou_sleep.txt</span></figcaption></figure></div>
+
+  <h2>動き</h2>
+  <p class="sub">絵を描き足さず、同じ絵を数 px ずらして作っています。</p>
+  <div class="grid"><figure><img src="pixel/anim/rou_idle.gif" alt="待機" width="160" height="160"><figcaption>待機<span class="sub">まばたきするだけ。置きっぱなしにする用。</span></figcaption></figure><figure><img src="pixel/anim/rou_hop.gif" alt="跳ねる" width="160" height="160"><figcaption>跳ねる<span class="sub">投稿できたとき。</span></figcaption></figure><figure><img src="pixel/anim/rou_bark.gif" alt="ほえる" width="160" height="160"><figcaption>ほえる<span class="sub">呼びかけ・注意。</span></figcaption></figure><figure><img src="pixel/anim/rou_sleep.gif" alt="ねむる" width="160" height="160"><figcaption>ねむる<span class="sub">やることがないとき。</span></figcaption></figure></div>
+
+  <h2>セリフと声</h2>
+  <p class="sub">青い状態名が <code>post.py</code> を1回流したときに出るぶんです。
+  <code>{}</code> は実際の値で埋まります（下は見本の値）。</p>
+  <table><tbody><tr class="inrun"><td><code>hello</code></td><td>ロウっていうんだ。よろしく。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_hello.wav"></audio></td></tr><tr><td><code>idle</code></td><td>次は18時。それまで待ってるよ。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_idle.wav"></audio></td></tr><tr class="inrun"><td><code>posted</code></td><td>before と after の比較、投稿しておいたよ。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_posted.wav"></audio></td></tr><tr><td><code>daily</code></td><td>今日は5件、投稿したよ。朝いちばんのがいちばん伸びてた。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_daily.wav"></audio></td></tr><tr class="inrun"><td><code>daily_plain</code></td><td>今日は3件、投稿したよ。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_daily_plain.wav"></audio></td></tr><tr><td><code>trend</code></td><td>ここ何日か夜の反応がよかったから、次は21時に回してみるね。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_trend.wav"></audio></td></tr><tr><td><code>adjust</code></td><td>画像が縦長だったから、正方形に切り出しておいたよ。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_adjust.wav"></audio></td></tr><tr><td><code>skipped</code></td><td>先週と同じ画像だったから、これは見送っておいた。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_skipped.wav"></audio></td></tr><tr><td><code>error</code></td><td>ごめん、接続切れで失敗した。もう一度やってみる。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_error.wav"></audio></td></tr><tr class="inrun"><td><code>empty</code></td><td>今日のぶんは、もう全部流したよ。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_empty.wav"></audio></td></tr><tr><td><code>streak</code></td><td>14日、続けて出せてる。……べつに。</td><td><audio controls preload="none" src="pixel/sound/voice/rou_streak.wav"></audio></td></tr><tr><td><code>surprise</code></td><td>見たことない形式のファイルが来てるけど、これどう扱えばいい？</td><td><audio controls preload="none" src="pixel/sound/voice/rou_surprise.wav"></audio></td></tr></tbody></table>
+
+  <h2>効果音</h2>
+  <ul class="plain"><li><span class="who">起きた</span><audio controls preload="none" src="pixel/sound/rou_wake.wav"></audio></li><li><span class="who">ほえる</span><audio controls preload="none" src="pixel/sound/rou_bark.wav"></audio></li><li><span class="who">跳ねた</span><audio controls preload="none" src="pixel/sound/rou_hop.wav"></audio></li><li><span class="who">しくじった</span><audio controls preload="none" src="pixel/sound/rou_error.wav"></audio></li><li><span class="who">ねむる</span><audio controls preload="none" src="pixel/sound/rou_sleep.wav"></audio></li></ul>
+
+  <h2>色</h2>
+  <p class="sub">グリッドの1文字がそのまま1色。<code>palette.json</code> を書き換えると全部に効きます。</p>
+  <ul class="plain"><li><span class="chip" style="background:transparent"></span><code>.</code><span class="hex">透明</span></li><li><span class="chip" style="background:#16213E"></span><code>#</code><span class="hex">#16213E</span></li><li><span class="chip" style="background:#2A5CA8"></span><code>D</code><span class="hex">#2A5CA8</span></li><li><span class="chip" style="background:#1E3F73"></span><code>N</code><span class="hex">#1E3F73</span></li><li><span class="chip" style="background:#4A90D9"></span><code>B</code><span class="hex">#4A90D9</span></li><li><span class="chip" style="background:#8FCBF5"></span><code>L</code><span class="hex">#8FCBF5</span></li><li><span class="chip" style="background:#F3E6CC"></span><code>C</code><span class="hex">#F3E6CC</span></li><li><span class="chip" style="background:#D6C39C"></span><code>S</code><span class="hex">#D6C39C</span></li><li><span class="chip" style="background:#FFFFFF"></span><code>W</code><span class="hex">#FFFFFF</span></li><li><span class="chip" style="background:#FFD05C"></span><code>Y</code><span class="hex">#FFD05C</span></li><li><span class="chip" style="background:#FF9CA8"></span><code>P</code><span class="hex">#FF9CA8</span></li></ul>
+
+  <h2>手元で動かす</h2>
+<pre>python3 character/pixel/render.py            # グリッド → PNG
+python3 character/pixel/anim.py             # GIF
+python3 character/pixel/icon.py             # アイコン
+python3 character/pixel/tts.py --all        # セリフの声をまとめて作る
+python3 character/pixel/show.py             # ターミナルに出す
+python3 post.py --dry-run                   # ロウが喋る投稿スクリプト
+python3 character/pixel/sheet.py            # このページを作り直す</pre>
+</main>
+</body>
+</html>

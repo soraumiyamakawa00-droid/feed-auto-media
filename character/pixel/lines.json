@@ -1,0 +1,64 @@
+{
+  "_comment": "ロウのセリフ。中身は毎回変わるので {} を埋めるテンプレート。example は見本の値で、音声サンプルの生成にも使う。say があればそちらを読み上げる。",
+  "lines": {
+    "hello": {
+      "text": "ロウっていうんだ。よろしく。",
+      "face": "rou", "sound": "rou_wake", "example": {}
+    },
+    "idle": {
+      "text": "次は{time}。それまで待ってるよ。",
+      "face": "rou", "sound": null,
+      "example": { "time": "18時" }
+    },
+    "posted": {
+      "text": "{title}、投稿しておいたよ。",
+      "face": "rou_bark", "sound": "rou_bark",
+      "example": { "title": "before と after の比較" }
+    },
+    "daily": {
+      "text": "今日は{count}件、投稿したよ。{best}のがいちばん伸びてた。",
+      "face": "rou_happy", "sound": "rou_hop",
+      "example": { "count": "5", "best": "朝いちばん" }
+    },
+    "daily_plain": {
+      "text": "今日は{count}件、投稿したよ。",
+      "face": "rou_happy", "sound": "rou_hop",
+      "example": { "count": "3" }
+    },
+    "trend": {
+      "text": "ここ何日か{trend}の反応がよかったから、次は{action}してみるね。",
+      "face": "rou", "sound": null,
+      "example": { "trend": "夜", "action": "21時に回" }
+    },
+    "adjust": {
+      "text": "{reason}だったから、{action}しておいたよ。",
+      "face": "rou_wink", "sound": null,
+      "example": { "reason": "画像が縦長", "action": "正方形に切り出" }
+    },
+    "skipped": {
+      "text": "{reason}だったから、これは見送っておいた。",
+      "face": "rou_sad", "sound": null,
+      "example": { "reason": "先週と同じ画像" }
+    },
+    "error": {
+      "text": "ごめん、{reason}で失敗した。もう一度やってみる。",
+      "face": "rou_angry", "sound": "rou_error",
+      "example": { "reason": "接続切れ" }
+    },
+    "empty": {
+      "text": "今日のぶんは、もう全部流したよ。",
+      "face": "rou_sleep", "sound": "rou_sleep", "example": {}
+    },
+    "streak": {
+      "text": "{days}日、続けて出せてる。……べつに。",
+      "say": "{days}日、続けて出せてる。べつに。",
+      "face": "rou_smug", "sound": null,
+      "example": { "days": "14" }
+    },
+    "surprise": {
+      "text": "{thing}が来てるけど、これどう扱えばいい？",
+      "face": "rou_surprise", "sound": null,
+      "example": { "thing": "見たことない形式のファイル" }
+    }
+  }
+}
