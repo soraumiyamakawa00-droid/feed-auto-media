@@ -139,6 +139,12 @@ def load_lines():
     return data["lines"]
 
 
+def fill(line, values=None, spoken=False):
+    """テンプレートの {} を埋める。値を渡さなければ example の見本で埋める。"""
+    template = (line.get("say") if spoken else None) or line["text"]
+    return template.format(**(values if values is not None else line.get("example", {})))
+
+
 def detect():
     if has_voicevox():
         return "voicevox"
@@ -213,8 +219,8 @@ def main():
         voice_dir.mkdir(parents=True, exist_ok=True)
         for state, line in load_lines().items():
             path = voice_dir / f"rou_{state}.wav"
-            render(line["text"], path)
-            print(f'{path}  ({backend})  {state:10} 「{line["text"]}」')
+            render(fill(line, spoken=True), path)
+            print(f'{path}  ({backend})  {state:10} 「{fill(line)}」')
         return
 
     path = out_dir / f"{args.name}.wav"
