@@ -20,6 +20,11 @@
       "face": "rou_happy", "sound": "rou_hop",
       "example": { "count": "5", "best": "朝いちばん" }
     },
+    "daily_plain": {
+      "text": "今日は{count}件、投稿したよ。",
+      "face": "rou_happy", "sound": "rou_hop",
+      "example": { "count": "3" }
+    },
     "trend": {
       "text": "ここ何日か{trend}の反応がよかったから、次は{action}してみるね。",
       "face": "rou", "sound": null,

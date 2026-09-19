@@ -67,6 +67,58 @@ print(lines["daily"]["text"].format(count=7, best="21時"))
 # → 今日は7件、投稿したよ。21時のがいちばん伸びてた。
 ```
 
+## 投稿スクリプトに組み込む
+
+`pixel/rou.py` が投稿スクリプト側の入口です。状態の名前を渡すだけで、
+絵・セリフ・声がまとめて出ます。
+
+```python
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path("character/pixel")))
+import rou
+
+rou.speak("posted", title="before と after の比較")
+rou.speak("daily_plain", count=5)
+print(rou.line("error", reason="接続切れ"))   # 文字列だけ欲しいとき
+```
+
+| 関数 | すること |
+| --- | --- |
+| `rou.line(state, **values)` | セリフを文字列で返す。値を省くと `example` で埋める |
+| `rou.face_art(state)` | その状態の絵を端末用の文字列で返す |
+| `rou.speak(state, **values)` | 絵を出し、セリフを出し、声（なければ効果音）を鳴らす |
+
+`ROU_SILENT=1` で音を止められます。出力先が端末でないとき
+（ログへリダイレクトしたときなど）は、絵と音は自動で止まり、セリフだけが残ります。
+
+### post.py
+
+リポジトリ直下の `post.py` が、それを使った実際の投稿スクリプトです。
+
+```bash
+python3 post.py --dry-run     # 何をするか見るだけ
+python3 post.py --limit 2     # 2件だけ
+python3 post.py --quiet       # 絵と音なし（ログ向き）
+```
+
+```
+  ロウっていうんだ。よろしく。
+  before、投稿しておいたよ。
+  after、投稿しておいたよ。
+  今日は2件、投稿したよ。
+  今日のぶんは、もう全部流したよ。
+```
+
+- 実際の送信は **`post_one()` の中だけ**です。投稿先が決まったらそこを差し替えます。
+  つながっていないうちは `--dry-run` 以外で呼ぶと例外で止まります（黙って成功しない）。
+- 出した画像は中身の sha256 で `.feed-state.json` に控えます。
+  同じ画像が来たら `skipped`（「前にも出した画像だったから、これは見送っておいた」）。
+- **`daily` と `daily_plain` を使い分けます。** 「いちばん伸びてた」は伸びを実際に
+  見ていないと言ってはいけないので、反応の統計がない今は `daily_plain`
+  （「今日は3件、投稿したよ。」）だけを使います。`best_hour()` が常に `None` を
+  返しているのはそのためです。統計が取れるようになったらそこを実装すると、
+  ロウが自動で `daily` のほうを喋りはじめます。
+
 ## 姿（40×40）
 
 1頭身。頭がそのまま体で、手足は付けず、耳と丸いしっぽだけが生えています。
