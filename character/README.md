@@ -237,7 +237,11 @@ python3 character/pixel/tts.py "やあ" --backend voicevox --voicevox-speaker 3
 | **say**（macOS 内蔵） | **不要** | いちばん早い。日本語は `Kyoko`。設定から高品質版を入れるとかなり自然 |
 | **VOICEVOX** | エンジンを入れて起動 | 無料・日本語・ローカル。キャラクターらしい声ならこれ |
 | **piper** | モデル(.onnx)を1つ | オフラインのニューラル音声。軽い |
+| **openjtalk** | `pip install pyopenjtalk` | 日本語専用。**声が同梱**なのでモデルを別途落とさずに済む |
 | `builtin` | 不要 | `speak.py`。何も無いときの保険 |
+
+`drafts/voice/openjtalk_*.wav` が OpenJTalk で作ったサンプルです。
+自前の合成（`speak.py`）と聴き比べると、原理の差がそのまま出ます。
 
 VOICEVOX は起動しておくと `http://127.0.0.1:50021` で待ち受けるので、
 `/audio_query` → `/synthesis` の2回叩くだけです（`tts.py` がやります）。

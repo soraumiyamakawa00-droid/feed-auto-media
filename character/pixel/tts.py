@@ -17,6 +17,9 @@
     voicevox  VOICEVOX。無料・日本語・ローカル。キャラクターらしい声ならこれ。
               アプリを起動しておくと http://127.0.0.1:50021 で待ち受けます。
     piper     オフラインのニューラル音声。モデル(.onnx)を1つ落とすだけで動きます。
+    openjtalk 日本語専用。`pip install pyopenjtalk` だけで声が付いてきます
+              （初回に辞書を自動で落とします）。ネットワークが制限された環境でも
+              入れやすいのが利点。
     builtin   speak.py。エンジンが何も無いときの保険。
 """
 import argparse
@@ -39,6 +42,14 @@ def has_say():
 
 def has_piper():
     return shutil.which("piper") is not None
+
+
+def has_openjtalk():
+    try:
+        import pyopenjtalk  # noqa: F401
+        return True
+    except Exception:
+        return False
 
 
 def has_voicevox(timeout=1.0):
@@ -85,6 +96,23 @@ def run_piper(text, path, model):
                    input=text.encode(), check=True)
 
 
+def run_openjtalk(text, path, speed=1.0):
+    import struct
+    import wave
+
+    import pyopenjtalk
+    samples, rate = pyopenjtalk.tts(text, speed=speed)
+    peak = max((abs(float(v)) for v in samples), default=1.0) or 1.0
+    frames = b"".join(
+        struct.pack("<h", int(max(-1.0, min(1.0, float(v) / peak * 0.92)) * 32767))
+        for v in samples)
+    with wave.open(str(path), "wb") as fh:
+        fh.setnchannels(1)
+        fh.setsampwidth(2)
+        fh.setframerate(int(rate))
+        fh.writeframes(frames)
+
+
 def run_builtin(text, path, voice="normal"):
     sys.path.insert(0, str(HERE))
     import sound
@@ -97,8 +125,10 @@ def detect():
         return "voicevox"
     if has_say():
         return "say"
+    if has_openjtalk():
+        return "openjtalk"
     if has_piper():
-        return "piper"
+        return "piper"          # モデルの指定が要るので最後に回す
     return "builtin"
 
 
@@ -106,12 +136,13 @@ def main():
     ap = argparse.ArgumentParser(description="ロウのセリフを読み上げエンジンで音声にする")
     ap.add_argument("text", nargs="?")
     ap.add_argument("--backend", default="auto",
-                    choices=["auto", "say", "voicevox", "piper", "builtin"])
+                    choices=["auto", "say", "voicevox", "piper", "openjtalk", "builtin"])
     ap.add_argument("--check", action="store_true", help="使えるエンジンを調べる")
     ap.add_argument("--say-voice", default="Kyoko")
     ap.add_argument("--voicevox-speaker", type=int, default=3)
     ap.add_argument("--piper-model")
     ap.add_argument("--builtin-voice", default="normal")
+    ap.add_argument("--speed", type=float, default=1.0, help="openjtalk の話速")
     ap.add_argument("--play", action="store_true")
     ap.add_argument("-o", "--out", default=str(HERE / "sound"))
     ap.add_argument("--name", default="rou_tts")
@@ -121,6 +152,7 @@ def main():
         rows = [("voicevox", has_voicevox(), "VOICEVOX を起動しておく（:50021）"),
                 ("say", has_say(), "macOS 内蔵。インストール不要"),
                 ("piper", has_piper(), "piper をインストールしてモデルを1つ落とす"),
+                ("openjtalk", has_openjtalk(), "pip install pyopenjtalk（声が同梱）"),
                 ("builtin", True, "speak.py（自前の合成）")]
         for name, ok, note in rows:
             print(f'{"使える" if ok else "  ---"}  {name:9} {note}')
@@ -133,7 +165,8 @@ def main():
     backend = detect() if args.backend == "auto" else args.backend
     missing = {"say": (has_say, "macOS でのみ使えます"),
                "voicevox": (has_voicevox, "VOICEVOX を起動してください（http://127.0.0.1:50021）"),
-               "piper": (has_piper, "piper が見つかりません")}
+               "piper": (has_piper, "piper が見つかりません"),
+               "openjtalk": (has_openjtalk, "pip install pyopenjtalk で入ります")}
     if backend in missing and not missing[backend][0]():
         raise SystemExit(f"{backend} は使えません。{missing[backend][1]}\n"
                          f"--check で使えるエンジンを確認できます。")
@@ -147,6 +180,8 @@ def main():
         run_voicevox(args.text, path, args.voicevox_speaker)
     elif backend == "piper":
         run_piper(args.text, path, args.piper_model)
+    elif backend == "openjtalk":
+        run_openjtalk(args.text, path, args.speed)
     else:
         run_builtin(args.text, path, args.builtin_voice)
 
