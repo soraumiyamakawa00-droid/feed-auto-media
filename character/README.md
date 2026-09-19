@@ -67,6 +67,52 @@ print(lines["daily"]["text"].format(count=7, best="21時"))
 # → 今日は7件、投稿したよ。21時のがいちばん伸びてた。
 ```
 
+## 手元で持っておく
+
+ロウは全部このリポジトリの中にあります。外のサービスには置いていないので、
+clone すればそのまま手元のものになります。
+
+```bash
+git clone https://github.com/soraumiyamakawa00-droid/feed-auto-media.git
+cd feed-auto-media
+git checkout claude/gabumon-character-creation-jvl0ll
+python3 character/pixel/sheet.py     # 一覧ページを作る
+open character/sheet.html            # Linux は xdg-open、Windows は start
+```
+
+`character/sheet.html` が手元の一覧です。表情・動き・セリフ・声・色が並んでいて、
+声はその場で再生できます。中身は画像と音の**相対パスを指しているだけ**なので
+ファイルは 10 KB ほどで、グリッドを描き換えて `render.py` を流し直せば、
+ブラウザを開き直すだけで最新になります。サーバーは要りません。
+
+| 置き場所 | 中身 |
+| --- | --- |
+| `character/pixel/*.txt` | **原本。** 1文字=1ピクセルのドット絵 |
+| `character/pixel/palette.json` | 文字と色の対応表。ここを変えると全部に効く |
+| `character/pixel/lines.json` | セリフのテンプレート |
+| `character/pixel/*.png` | `.txt` から書き出した画像（等倍と x8） |
+| `character/pixel/anim/*.gif` | アニメーション |
+| `character/pixel/icons/*.png` | アイコン |
+| `character/pixel/sound/*.wav` | 効果音 |
+| `character/pixel/sound/voice/*.wav` | セリフの声 |
+| `character/drafts/` | 採用しなかった案 |
+| `.feed-state.json` | **手元だけのもの。** 何を投稿済みかの記録。git には入れません |
+
+作り直すコマンドはこれだけです。
+
+```bash
+python3 character/pixel/render.py      # .txt → PNG
+python3 character/pixel/anim.py        # GIF
+python3 character/pixel/icon.py        # アイコン
+python3 character/pixel/sound.py       # 効果音
+python3 character/pixel/tts.py --all   # セリフの声
+python3 character/pixel/sheet.py       # 一覧ページ
+```
+
+`tts.py --all` だけは手元の環境で声が変わります。macOS なら `--backend say`、
+VOICEVOX を起動してあるなら `--backend voicevox` を足すと、
+同じファイル名のまま、その声に差し替わります。
+
 ## 投稿スクリプトに組み込む
 
 `pixel/rou.py` が投稿スクリプト側の入口です。状態の名前を渡すだけで、
