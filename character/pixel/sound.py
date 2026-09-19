@@ -104,9 +104,21 @@ SOUNDS = {
 }
 
 
-def write_wav(path, samples):
+# 音ごとの狙いの大きさ。寝息などは控えめにしたいので下げる。
+LEVELS = {"sleep": 0.45, "whine": 0.62, "wake": 0.80}
+
+
+def write_wav(path, samples, level=None):
+    """ピークを level に合わせて書き出す。
+
+    合成したままだと最大でも 5 割ほどの音量にしかならず、
+    ブラウザや端末のスピーカーでは「鳴っていない」ように聞こえます。
+    """
+    if level is None:
+        stem = pathlib.Path(path).stem
+        level = next((v for k, v in LEVELS.items() if k in stem), 0.92)
     peak = max(abs(v) for v in samples) or 1.0
-    gain = 0.92 / peak if peak > 0.92 else 1.0
+    gain = level / peak
     frames = b"".join(
         struct.pack("<h", int(max(-1.0, min(1.0, v * gain)) * 32767)) for v in samples)
     with wave.open(str(path), "wb") as fh:
