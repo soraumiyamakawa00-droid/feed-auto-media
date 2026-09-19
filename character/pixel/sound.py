@@ -125,6 +125,14 @@ def play(path):
     return False
 
 
+def shown(path):
+    """リポジトリの外に書き出したときも壊れないようにする。"""
+    try:
+        return path.relative_to(pathlib.Path.cwd())
+    except ValueError:
+        return path
+
+
 def main():
     ap = argparse.ArgumentParser(description="ロウの効果音を書き出す")
     ap.add_argument("name", nargs="?", help="書き出す音（省略時は全部）")
@@ -146,7 +154,7 @@ def main():
         samples = SOUNDS[name]()
         path = out_dir / f"rou_{name}.wav"
         write_wav(path, samples)
-        print(f"{path.relative_to(HERE.parent.parent)}  {len(samples) / RATE:.2f}秒")
+        print(f"{shown(path)}  {len(samples) / RATE:.2f}秒")
         if args.play:
             play(path)
 
